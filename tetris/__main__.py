@@ -661,7 +661,9 @@ class Game:
             ).matrix
             self.next_piece.x = self.grid.x - 2 * self.next_piece.width() - 2
             self.next_piece.y = (
-                self.grid.y + self.grid.height() // 2 - self.next_piece.height() // 2
+                self.grid.y
+                + self.grid.height() // 2
+                - math.ceil(self.next_piece.height() / 2)
             )
         elif isinstance(event, GameOverEvent):
             self.status = GameStatus.GAME_OVER
