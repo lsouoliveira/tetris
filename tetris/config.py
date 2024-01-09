@@ -9,5 +9,6 @@ class Config:
 
     PIECE_SPEED = 0.25
     FAST_PIECE_SPEED = 0.1
+    PIECE_SPEED_INCREMENT = 0.05
 
     RESET_TEXT_INTERVAL = 0.5

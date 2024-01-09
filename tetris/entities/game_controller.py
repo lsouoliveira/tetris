@@ -19,14 +19,17 @@ class GameController(Observable):
         self.piece = piece
         self.stdscr = stdscr
         self.piece_speed = Config.PIECE_SPEED
-        self.piece_movement_timer = 0
         self.piece_factory = PieceFactory()
-        self.can_move_piece_down = True
-        self.is_running = True
-        self.next_piece_type = None
 
     def start(self):
+        self.lines_cleared = 0
+        self.level = 1
+        self.piece_speed = Config.PIECE_SPEED
         self.is_running = True
+        self.can_move_piece_down = True
+        self.piece_movement_timer = 0
+        self.next_piece_type = None
+
         self.grid.initialize_grid(Config.ROWS, Config.COLS)
         self.centralize_grid()
         self.add_new_piece()
@@ -49,7 +52,17 @@ class GameController(Observable):
                 if self.grid.are_any_rows_full():
                     removed_row_indexes = self.grid.remove_full_rows()
                     self.grid.shift_rows_down(removed_row_indexes)
+                    self.lines_cleared += len(removed_row_indexes)
+                    new_level = math.floor(self.lines_cleared / 10) + 1
+
+                    if new_level > self.level:
+                        self.handle_level_up(new_level)
+
                     self.notify_observers(LinesClearedEvent(len(removed_row_indexes)))
+
+    def handle_level_up(self, new_level):
+        self.level = new_level
+        self.piece_speed += Config.PIECE_SPEED_INCREMENT
 
     def add_new_piece(self):
         new_piece_type = self.next_piece_type or random.choice(POSSIBLE_PIECE_TYPES)
