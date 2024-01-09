@@ -23,6 +23,7 @@ class GameController(Observable):
         self.piece_factory = PieceFactory()
         self.can_move_piece_down = True
         self.is_running = True
+        self.next_piece_type = None
 
     def start(self):
         self.is_running = True
@@ -51,8 +52,9 @@ class GameController(Observable):
                     self.notify_observers(LinesClearedEvent(len(removed_row_indexes)))
 
     def add_new_piece(self):
-        random_piece_type = random.choice(POSSIBLE_PIECE_TYPES)
-        new_piece = self.piece_factory.create_piece(random_piece_type)
+        new_piece_type = self.next_piece_type or random.choice(POSSIBLE_PIECE_TYPES)
+        new_piece = self.piece_factory.create_piece(new_piece_type)
+        self.next_piece_type = random.choice(POSSIBLE_PIECE_TYPES)
 
         self.piece.matrix = new_piece.matrix
         self.piece.x = (
@@ -62,7 +64,7 @@ class GameController(Observable):
         self.piece.reached_bottom = False
         self.piece_movement_timer = 0
 
-        self.notify_observers(PieceAddedEvent(random_piece_type))
+        self.notify_observers(PieceAddedEvent(self.next_piece_type))
 
         if not self.grid.can_place_piece_at(self.piece, self.piece.x, self.piece.y):
             self.is_running = False
