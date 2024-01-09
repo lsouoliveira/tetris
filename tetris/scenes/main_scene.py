@@ -74,8 +74,10 @@ class MainScene(Scene):
     def on_event(self, event: Event):
         if isinstance(event, PieceAddedEvent):
             self.next_piece.matrix = self.piece_factory.create_piece(
-                event.piece_type
+                event.piece_type,
+                rotation=2 if event.piece_type == PieceType.I else 0,
             ).matrix
+
             self.next_piece.x = self.grid.x - 2 * self.next_piece.width() - 2
             self.next_piece.y = (
                 self.grid.y

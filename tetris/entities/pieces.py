@@ -80,11 +80,16 @@ def build_piece_from_matrix(matrix: list[list[int]]) -> list[list["Cell"]]:
 
 
 class PieceFactory:
-    def create_piece(self, piece_type: "PieceType") -> "Piece":
-        return Piece(
+    def create_piece(self, piece_type: "PieceType", rotation=0) -> "Piece":
+        piece =  Piece(
             matrix=build_piece_from_matrix(PIECE_TYPE_SHAPES[piece_type]),
             rotatable=piece_type != PieceType.O,
         )
+
+        for _ in range(rotation):
+            piece.rotate_clockwise()
+
+        return piece
 
 
 class Cell:
