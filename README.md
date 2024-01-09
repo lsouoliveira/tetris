@@ -2,4 +2,4 @@
 
 A clone of Tetris based on the original one. It doesn't support SRS.
 
-![Gravando-2024-01-07-222738](https://github.com/lsouoliveira/tetris/assets/30642647/909caadf-b96c-4430-9a7f-094743710971)
+![WindowsTerminal_NIcLoKeK1W](https://github.com/lsouoliveira/tetris/assets/30642647/c86879a6-e71a-4946-9475-c5651382b1a4)
